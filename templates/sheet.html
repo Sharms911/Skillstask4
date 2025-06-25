@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{{ sheet_name }}</title>
+  <style>
+    table, th, td {
+      border: 1px solid black;
+      border-collapse: collapse;
+      padding: 6px;
+    }
+    th { background-color: #f2f2f2; }
+  </style>
+</head>
+<body>
+  <h1>Editing: {{ sheet_name }}</h1>
+  <a href="{{ url_for('index') }}">← Back to all sheets</a>
+
+  <form method="POST" action="{{ url_for('save_sheet', name=sheet_name) }}">
+    <table>
+      <thead>
+        <tr>
+          {% for header in headers %}
+            <th>{{ header }}</th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for row_idx in range(rows|length) %}
+          <tr>
+            {% for col_idx in range(headers|length) %}
+              <td>
+                <input type="text" name="cell_{{ row_idx }}_{{ col_idx }}" value="{{ rows[row_idx][col_idx] }}">
+              </td>
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <br>
+    <button type="submit">💾 Save Changes</button>
+  </form>
+</body>
+</html>
